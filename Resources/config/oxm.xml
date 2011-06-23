@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="doctrine.oxm.event_manager.class">Doctrine\Common\EventManager</parameter>
+
+        <!-- proxies -->
+        <parameter key="doctrine.odm.mongodb.proxy_namespace">Proxies</parameter>
+        <parameter key="doctrine.odm.mongodb.proxy_dir">%kernel.cache_dir%/doctrine/odm/mongodb/Proxies</parameter>
+        <parameter key="doctrine.odm.mongodb.auto_generate_proxy_classes">false</parameter>
+
+        <!-- cache -->
+        <parameter key="doctrine.oxm.cache.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
+        <parameter key="doctrine.oxm.cache.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+        <parameter key="doctrine.oxm.cache.memcache.class">Doctrine\Common\Cache\MemcacheCache</parameter>
+        <parameter key="doctrine.oxm.cache.memcache_host">localhost</parameter>
+        <parameter key="doctrine.oxm.cache.memcache_port">11211</parameter>
+        <parameter key="doctrine.oxm.cache.memcache_instance.class">Memcache</parameter>
+        <parameter key="doctrine.oxm.cache.xcache.class">Doctrine\Common\Cache\XcacheCache</parameter>
+
+        <!-- metadata -->
+        <parameter key="doctrine.oxm.metadata.driver_chain.class">Doctrine\OXM\Mapping\Driver\DriverChain</parameter>
+        <parameter key="doctrine.oxm.metadata.annotation.class">Doctrine\OXM\Mapping\Driver\AnnotationDriver</parameter>
+        <parameter key="doctrine.oxm.metadata.xml.class">Go\DoctrineOXMBundle\Mapping\Driver\XmlDriver</parameter>
+        <parameter key="doctrine.oxm.metadata.yml.class">Go\DoctrineOXMBundle\Mapping\Driver\YamlDriver</parameter>
+
+        <!-- directories -->
+        <parameter key="doctrine.oxm.mapping_dirs" type="collection"></parameter>
+        <parameter key="doctrine.oxm.xml_mapping_dirs">%doctrine.oxm.mapping_dirs%</parameter>
+        <parameter key="doctrine.oxm.yml_mapping_dirs">%doctrine.oxm.mapping_dirs%</parameter>
+        <parameter key="doctrine.oxm.document_dirs" type="collection"></parameter>
+
+    </parameters>
+
+    <services>
+        <!-- defaults -->
+        <service id="doctrine.oxm.cache" alias="doctrine.oxm.cache.array" />
+
+
+        <!-- metadata -->
+        <service id="doctrine.oxm.metadata.chain" class="%doctrine.oxm.metadata.driver_chain.class%" />
+        <service id="doctrine.oxm.metadata.annotation" class="%doctrine.oxm.metadata.annotation.class%">
+            <argument type="service" id="doctrine.oxm.metadata.annotation_reader" />
+            <argument>%doctrine.oxm.document_dirs%</argument>
+        </service>
+        <service id="doctrine.oxm.metadata.annotation_reader" alias="annotation_reader" />
+        <service id="doctrine.oxm.metadata.xml" class="%doctrine.oxm.metadata.xml.class%">
+            <argument>%doctrine.oxm.xml_mapping_dirs%</argument>
+        </service>
+        <service id="doctrine.oxm.metadata.yml" class="%doctrine.oxm.metadata.yml.class%">
+            <argument>%doctrine.oxm.yml_mapping_dirs%</argument>
+        </service>
+
+        <!-- cache -->
+        <service id="doctrine.oxm.cache.array" class="%doctrine.oxm.cache.array.class%" />
+
+    </services>
+</container>
