@@ -1,6 +1,6 @@
 <?php
 
-namespace Go\DoctrineOXMBundle\DependencyInjection;
+namespace Doctrine\Bundle\OXMBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -26,7 +26,39 @@ class DoctrineMongoDBExtension extends AbstractDoctrineExtension
         // Load DoctrineMongoDBBundle/Resources/config/mongodb.xml
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('oxm.xml');
+        
+        
 
+        
+        // set some options as parameters and unset them
+        $config = $this->overrideParameters($config, $container);
+    }
+    
+    
+    /**
+     * Uses some of the extension options to override DI extension parameters.
+     *
+     * @param array $options The available configuration options
+     * @param ContainerBuilder $container A ContainerBuilder instance
+     */
+    protected function overrideParameters($options, ContainerBuilder $container)
+    {
+        $overrides = array(
+            'proxy_namespace',
+            'proxy_dir',
+            'auto_generate_proxy_classes',
+        );
+
+        foreach ($overrides as $key) {
+            if (isset($options[$key])) {
+                $container->setParameter('doctrine.oxm.'.$key, $options[$key]);
+
+                // the option should not be used, the parameter should be referenced
+                unset($options[$key]);
+            }
+        }
+
+        return $options;
     }
 
 
@@ -37,7 +69,7 @@ class DoctrineMongoDBExtension extends AbstractDoctrineExtension
 
     protected function getMappingObjectDefaultName()
     {
-        return 'Document';
+        return 'XmlEntity';
     }
 
     protected function getMappingResourceConfigDirectory()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Go\DoctrineOXMBundle\DependencyInjection;
+namespace Doctrine\Bundle\OXMBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -33,17 +33,16 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('doctrine_oxm');
 
-        $this->addEntityManagersSection($rootNode);
+        $rootNode
+            ->children()
+                ->scalarNode('proxy_namespace')->defaultValue('Proxies')->end()
+                ->scalarNode('proxy_dir')->defaultValue('%kernel.cache_dir%/doctrine/oxm/Proxies')->end()
+                ->scalarNode('auto_generate_proxy_classes')->defaultValue(false)->end()
+            ->end()
+        ;     
 
         return $treeBuilder;
     }
 
-    /**
-     * Configures the "document_managers" section
-     */
-    private function addEntityManagersSection(ArrayNodeDefinition $rootNode)
-    {
-        
-    }
 
 }

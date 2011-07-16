@@ -1,6 +1,6 @@
 <?php
 
-namespace Go\DoctrineOXMBundle\Mapping\Driver;
+namespace Doctrine\Bundle\OXMBundle\Mapping\Driver;
 
 use Doctrine\OXM\Mapping\Driver\XmlDriver as BaseXmlDriver;
 use Doctrine\OXM\OXMException;

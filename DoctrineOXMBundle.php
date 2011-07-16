@@ -1,11 +1,11 @@
 <?php
 
-namespace Go\DoctrineOXMBundle;
+namespace Doctrine\Bundle\OXMBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Go\DoctrineOXMBundle\DependencyInjection\Compiler\EventManagerPass;
+use Doctrine\Bundle\OXMBundle\DependencyInjection\Compiler\EventManagerPass;
 
 /**
  * Doctrine OXM bundle.

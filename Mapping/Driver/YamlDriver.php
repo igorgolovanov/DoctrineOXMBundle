@@ -1,6 +1,6 @@
 <?php
 
-namespace Go\DoctrineOXMBundle\Mapping\Driver;
+namespace Doctrine\Bundle\Mapping\Driver;
 
 use Doctrine\OXM\Mapping\Driver\YamlDriver as BaseYamlDriver;
 use Doctrine\OXM\OXMException;

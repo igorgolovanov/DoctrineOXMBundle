@@ -8,9 +8,9 @@
         <parameter key="doctrine.oxm.event_manager.class">Doctrine\Common\EventManager</parameter>
 
         <!-- proxies -->
-        <parameter key="doctrine.odm.mongodb.proxy_namespace">Proxies</parameter>
-        <parameter key="doctrine.odm.mongodb.proxy_dir">%kernel.cache_dir%/doctrine/odm/mongodb/Proxies</parameter>
-        <parameter key="doctrine.odm.mongodb.auto_generate_proxy_classes">false</parameter>
+        <parameter key="doctrine.oxm.proxy_namespace">Proxies</parameter>
+        <parameter key="doctrine.oxm.proxy_dir">%kernel.cache_dir%/doctrine/oxm/Proxies</parameter>
+        <parameter key="doctrine.oxm.auto_generate_proxy_classes">false</parameter>
 
         <!-- cache -->
         <parameter key="doctrine.oxm.cache.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
