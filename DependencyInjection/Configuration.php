@@ -33,15 +33,101 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('doctrine_oxm');
 
+        $this->addXmlEntityManagersSection($rootNode);
+        $this->addStoragesSection($rootNode);
+        
         $rootNode
             ->children()
                 ->scalarNode('proxy_namespace')->defaultValue('Proxies')->end()
                 ->scalarNode('proxy_dir')->defaultValue('%kernel.cache_dir%/doctrine/oxm/Proxies')->end()
-                ->scalarNode('auto_generate_proxy_classes')->defaultValue(false)->end()
+                ->scalarNode('auto_generate_proxy_classes')->defaultFalse()->end()
+                ->scalarNode('default_xml_entity_manager')->end()
+                ->scalarNode('default_storage')->defaultValue('default')->end()
             ->end()
         ;     
 
         return $treeBuilder;
+    }
+    
+        /**
+     * Configures the "xml_entity_managers" section
+     */
+    private function addXmlEntityManagersSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->fixXmlConfig('xml_entity_manager')
+            ->children()
+                ->arrayNode('xml_entity_managers')
+                    ->useAttributeAsKey('id')
+                    ->prototype('array')
+                        ->treatNullLike(array())
+                        ->children()
+                            ->scalarNode('connection')->end()
+                            ->scalarNode('storage')->end()
+                            ->booleanNode('logging')->defaultValue($this->debug)->end()
+                            ->scalarNode('auto_mapping')->defaultFalse()->end()
+                            ->arrayNode('metadata_cache_driver')
+                                ->beforeNormalization()
+                                    ->ifTrue(function($v) { return !is_array($v); })
+                                    ->then(function($v) { return array('type' => $v); })
+                                ->end()
+                                ->children()
+                                    ->scalarNode('type')->end()
+                                    ->scalarNode('class')->end()
+                                    ->scalarNode('host')->end()
+                                    ->scalarNode('port')->end()
+                                    ->scalarNode('instance_class')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->fixXmlConfig('mapping')
+                        ->children()
+                            ->arrayNode('mappings')
+                                ->useAttributeAsKey('name')
+                                ->prototype('array')
+                                    ->beforeNormalization()
+                                        ->ifString()
+                                        ->then(function($v) { return array ('type' => $v); })
+                                    ->end()
+                                    ->treatNullLike(array())
+                                    ->treatFalseLike(array('mapping' => false))
+                                    ->performNoDeepMerging()
+                                    ->children()
+                                        ->scalarNode('mapping')->defaultValue(true)->end()
+                                        ->scalarNode('type')->end()
+                                        ->scalarNode('dir')->end()
+                                        ->scalarNode('prefix')->end()
+                                        ->scalarNode('alias')->end()
+                                        ->booleanNode('is_bundle')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    }
+        
+    /**
+     * Adds the configuration for the "storages" key
+     */
+    private function addStoragesSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->fixXmlConfig('storage')
+            ->children()
+                ->arrayNode('storages')
+                    ->useAttributeAsKey('id')
+                    ->prototype('array')
+                        ->performNoDeepMerging()
+                        ->children()
+                            ->scalarNode('path')->defaultValue('%kernel.root_dir%/doctrine-oxm-storage')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 
 
