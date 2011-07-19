@@ -58,9 +58,7 @@ abstract class DoctrineOXMCommand extends ContainerAwareCommand
         $bundleMetadatas = array();
         $xmlEntityManagers = $this->getDoctrineXmlEntityManagers();
         foreach ($xmlEntityManagers as $key => $xem) {
-            $cmf = new DisconnectedClassMetadataFactory();
-            $cmf->setXmlEntityManager($xem);
-            $cmf->setConfiguration($xem->getConfiguration());
+            $cmf = new DisconnectedClassMetadataFactory($xem->getConfiguration(), $xem->getEventManager());
             $metadatas = $cmf->getAllMetadata();
             foreach ($metadatas as $metadata) {
                 if (strpos($metadata->name, $namespace) === 0) {

@@ -22,7 +22,7 @@ class GenerateRepositoriesDoctrineOXMCommand extends DoctrineOXMCommand
             ->setName('doctrine:oxm:generate:repositories')
             ->setDescription('Generate repository classes from your mapping information.')
             ->addArgument('bundle', InputArgument::REQUIRED, 'The bundle to initialize the repositories in.')
-            ->addOption('xm-entity', null, InputOption::VALUE_OPTIONAL, 'The xml-entity class to generate the repository for (shortname without namespace).')
+            ->addOption('xml-entity', null, InputOption::VALUE_OPTIONAL, 'The xml-entity class to generate the repository for (shortname without namespace).')
             ->setHelp(<<<EOT
 The <info>doctrine:oxm:generate:repositories</info> command generates the configured dxml-entity repository classes from your mapping information:
 
@@ -43,7 +43,7 @@ EOT
             $generator = new XmlEntityRepositoryGenerator();
 
             foreach ($metadatas as $metadata) {
-                if ($filterDocument && $filterXmlEntity !== $metadata->reflClass->getShortname()) {
+                if ($filterXmlEntity && $filterXmlEntity !== $metadata->reflClass->getShortname()) {
                     continue;
                 }
 
