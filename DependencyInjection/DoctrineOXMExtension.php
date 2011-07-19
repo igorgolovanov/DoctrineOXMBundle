@@ -116,7 +116,7 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
             'setProxyDir' => '%doctrine.oxm.proxy_dir%',
             'setProxyNamespace' => '%doctrine.oxm.proxy_namespace%',
             'setAutoGenerateProxyClasses' => '%doctrine.oxm.auto_generate_proxy_classes%',
-            'setDefaultStorage' => $defaultStorage,
+           // 'setDefaultStorage' => $defaultStorage,
         );
 
 //        if ($xmlEntityManager['logging']) {
@@ -147,7 +147,7 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
         );
         $oxmXemDef = new Definition('%doctrine.oxm.xml_entity_manager.class%', $oxmXemArgs);
         $oxmXemDef->setFactoryClass('%doctrine.oxm.xml_entity_manager.class%');
-        $oxmXemDef->setFactoryMethod('create');
+       // $oxmXemDef->setFactoryMethod('create');
         $oxmXemDef->addTag('doctrine.oxm.xml_entity_manager');
         $container->setDefinition(sprintf('doctrine.oxm.%s_xml_entity_manager', $xmlEntityManager['name']), $oxmXemDef);
 
@@ -255,17 +255,17 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
         $this->loadMappingInformation($xmlEntityManager, $container);
         $this->registerMappingDrivers($xmlEntityManager, $container);
 
-        if ($oxmConfigDef->hasMethodCall('setXmlEntityNamespaces')) {
+        if ($oxmConfigDef->hasMethodCall('setEntityNamespaces')) {
             // TODO: Can we make a method out of it on Definition? replaceMethodArguments() or something.
             $calls = $oxmConfigDef->getMethodCalls();
             foreach ($calls as $call) {
-                if ($call[0] == 'setXmlEntityNamespaces') {
+                if ($call[0] == 'setEntityNamespaces') {
                     $this->aliasMap = array_merge($call[1][0], $this->aliasMap);
                 }
             }
-            $method = $oxmConfigDef->removeMethodCall('setXmlEntityNamespaces');
+            $method = $oxmConfigDef->removeMethodCall('setEntityNamespaces');
         }
-        $oxmConfigDef->addMethodCall('setXmlEntityNamespaces', array($this->aliasMap));
+        $oxmConfigDef->addMethodCall('setEntityNamespaces', array($this->aliasMap));
     }
     
     

@@ -53,7 +53,7 @@ class XmlDriver extends BaseXmlDriver
         if ($this->paths) {
             foreach ((array) $this->paths as $path) {
                 if (!is_dir($path)) {
-                    throw MongoDBException::fileMappingDriversRequireConfiguredDirectoryPath();
+                    throw OXMException::fileMappingDriversRequireConfiguredDirectoryPath();
                 }
 
                 $iterator = new \RecursiveIteratorIterator(
@@ -129,9 +129,9 @@ class XmlDriver extends BaseXmlDriver
                 return $filename;
             }
 
-            throw MongoDBException::mappingNotFound($className, $filename);
+            throw OXMException::mappingNotFound($className, $filename);
         }
 
-        throw MongoDBException::mappingNotFound($className, substr($className, strrpos($className, '\\') + 1).$this->fileExtension);
+        throw OXMException::mappingNotFound($className, substr($className, strrpos($className, '\\') + 1).$this->fileExtension);
     }
 }

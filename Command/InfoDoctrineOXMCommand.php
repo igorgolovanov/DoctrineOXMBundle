@@ -53,7 +53,7 @@ EOT
                 'You do not have any mapped Doctrine OXM xml-entities for any of your bundles. '.
                 'Create a class inside the XmlEntity namespace of any of your bundles and provide '.
                 'mapping information for it with Annotations directly in the classes doc blocks '.
-                'or with XML/YAML in your bundles Resources/config/doctrine/metadata/mongodb directory.'
+                'or with XML/YAML in your bundles Resources/config/doctrine/ directory.'
             );
         }
 
