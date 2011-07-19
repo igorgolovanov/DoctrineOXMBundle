@@ -116,7 +116,7 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
             'setProxyDir' => '%doctrine.oxm.proxy_dir%',
             'setProxyNamespace' => '%doctrine.oxm.proxy_namespace%',
             'setAutoGenerateProxyClasses' => '%doctrine.oxm.auto_generate_proxy_classes%',
-            'setDefaultStorage' => $defaultDatabase,
+            'setDefaultStorage' => $defaultStorage,
         );
 
 //        if ($xmlEntityManager['logging']) {
@@ -141,7 +141,7 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
         }
 
         $oxmXemArgs = array(
-            new Reference(sprintf('doctrine.oxm.%s_connection', isset($xmlEntityManager['storage']) ? $xmlEntityManager['storage'] : $xmlEntityManager['name'])),
+            new Reference(sprintf('doctrine.oxm.%s_storage', isset($xmlEntityManager['storage']) ? $xmlEntityManager['storage'] : $xmlEntityManager['name'])),
             new Reference(sprintf('doctrine.oxm.%s_configuration', $xmlEntityManager['name'])),
             new Reference($eventManagerId),
         );
@@ -246,7 +246,7 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
      * @param Definition A Definition instance
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    protected function loadDocumentManagerBundlesMappingInformation(array $xmlEntityManager, Definition $oxmConfigDef, ContainerBuilder $container)
+    protected function loadXmlEntityManagerBundlesMappingInformation(array $xmlEntityManager, Definition $oxmConfigDef, ContainerBuilder $container)
     {
         // reset state of drivers and alias map. They are only used by this methods and children.
         $this->drivers = array();
