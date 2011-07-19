@@ -5,10 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="doctrine.oxm.storage.class">Doctrine\OXM\Storage\FileSystemStorage</parameter>
+        <!-- base -->
+        <parameter key="doctrine.oxm.filesystem_storage.class">Doctrine\OXM\Storage\FileSystemStorage</parameter>
         <parameter key="doctrine.oxm.configuration.class">Doctrine\OXM\Configuration</parameter>
         <parameter key="doctrine.oxm.xml_entity_manager.class">Doctrine\OXM\XmlEntityManager</parameter>
+        <parameter key="doctrine.oxm.xml_marshaller.class">Doctrine\OXM\Marshaller\XmlMarshaller</parameter>
+        <parameter key="doctrine.oxm.annotations.namespace">Doctrine\OXM\Mapping\</parameter>
         <parameter key="doctrine.oxm.event_manager.class">Doctrine\Common\EventManager</parameter>
+
+        <!-- storage -->
+        <parameter key="doctrine.oxm.storage.filesystem.class">Doctrine\OXM\Storage\FileSystemStorage</parameter>
 
         <!-- proxies -->
         <parameter key="doctrine.oxm.proxy_namespace">Proxies</parameter>

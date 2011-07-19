@@ -202,12 +202,14 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
     protected function loadStorages(array $storages, ContainerBuilder $container)
     {
         foreach ($storages as $name => $storage) {
-            $oxmStorageArgs = array(
-                isset($connection['server']) ? $connection['server'] : null,
-                isset($connection['options']) ? $connection['options'] : array(),
-                new Reference(sprintf('doctrine.oxm.%s_configuration', $name))
-            );
-            $oxmStorageDef = new Definition('%doctrine.oxm.storage.class%', $oxmStorageArgs);
+            $oxmStorageType = $storage['type'];
+            $oxmStorageDef = new Definition(sprintf('%%doctrine.oxm.%s_storage.class%%', $oxmStorageType));
+                     
+            
+            if ('filesystem' == $oxmStorageType) {
+                $oxmStorageDef->addArgument($storage['path']);
+                $oxmStorageDef->addArgument($storage['extension']);
+            }
             $container->setDefinition(sprintf('doctrine.oxm.%s_storage', $name), $oxmStorageDef);
         }
     }
