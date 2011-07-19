@@ -27,14 +27,18 @@
         <!-- metadata -->
         <parameter key="doctrine.oxm.metadata.driver_chain.class">Doctrine\OXM\Mapping\Driver\DriverChain</parameter>
         <parameter key="doctrine.oxm.metadata.annotation.class">Doctrine\OXM\Mapping\Driver\AnnotationDriver</parameter>
-        <parameter key="doctrine.oxm.metadata.xml.class">Go\DoctrineOXMBundle\Mapping\Driver\XmlDriver</parameter>
-        <parameter key="doctrine.oxm.metadata.yml.class">Go\DoctrineOXMBundle\Mapping\Driver\YamlDriver</parameter>
+        <parameter key="doctrine.oxm.metadata.xml.class">Doctrine\Bundle\OXMBundle\Mapping\Driver\XmlDriver</parameter>
+        <parameter key="doctrine.oxm.metadata.yml.class">Doctrine\Bundle\OXMBundle\Mapping\Driver\YamlDriver</parameter>
 
         <!-- directories -->
         <parameter key="doctrine.oxm.mapping_dirs" type="collection"></parameter>
         <parameter key="doctrine.oxm.xml_mapping_dirs">%doctrine.oxm.mapping_dirs%</parameter>
         <parameter key="doctrine.oxm.yml_mapping_dirs">%doctrine.oxm.mapping_dirs%</parameter>
         <parameter key="doctrine.oxm.xml_entity_dirs" type="collection"></parameter>
+        
+        <!-- proxy cache warmer -->
+        <parameter key="doctrine.oxm.proxy_cache_warmer.class">Doctrine\Bundle\OXMBundle\CacheWarmer\ProxyCacheWarmer</parameter>
+        
 
     </parameters>
 
@@ -59,6 +63,12 @@
 
         <!-- cache -->
         <service id="doctrine.oxm.cache.array" class="%doctrine.oxm.cache.array.class%" />
+        
+        <!-- Cache Warmers -->
+        <service id="doctrine.oxm.proxy_cache_warmer" class="%doctrine.oxm.proxy_cache_warmer.class%" public="false">
+            <tag name="kernel.cache_warmer" />
+            <argument type="service" id="service_container" />
+        </service>
 
     </services>
 </container>
