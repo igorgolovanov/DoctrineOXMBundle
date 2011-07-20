@@ -1,0 +1,32 @@
+doctrine_oxm:
+    proxy_namespace:    Test_Proxies
+    auto_generate_proxy_classes:    true
+    proxy_dir: "%kernel.cache_dir%/doctrine/oxm/Proxies"
+
+
+    default_xml_entity_manager:  default_xem_name
+    default_storage:          default_storage_name
+
+    storages:
+        storg1:
+            path: "%kernel.root_dir%/doctrine-oxm-storage/storg1"
+        storg2:
+            path: "%kernel.root_dir%/doctrine-oxm-storage/storg2"
+
+    xml_entity_managers:
+        xem1:
+            auto_mapping: false
+            mappings:
+                FooBundle:   annotations
+            metadata_cache_driver: apc
+        xem2:
+            auto_mapping: false
+            storage:         storg2
+            mappings:
+                BarBundle:
+                    type:   yml
+                    dir:    %kernel.cache_dir%
+                    prefix: prefix_val
+                    alias:  alias_val
+                    is_bundle: false
+            metadata_cache_driver: apc
