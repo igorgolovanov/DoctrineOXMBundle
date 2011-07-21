@@ -70,8 +70,8 @@ Full config:
         proxy_dir: "%kernel.cache_dir%/doctrine/oxm/Proxies"
 
 
-        default_xml_entity_manager:  default_xem_name
-        default_storage:          default_storage_name
+        default_xml_entity_manager:  xem1
+        default_storage:             storg1
 
         storages:
             storg1:
