@@ -41,6 +41,11 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
             $config['default_storage'] = reset($keys);
         }
 
+        if (empty ($config['default_xml_marshaller'])) {
+            $keys = array_keys($config['xml_entity_managers']);
+            $config['default_xml_marshaller'] = reset($keys);
+        }
+
         if (empty ($config['default_xml_entity_manager'])) {
             $keys = array_keys($config['xml_entity_managers']);
             $config['default_xml_entity_manager'] = reset($keys);
@@ -84,6 +89,7 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
             );
         }
         $container->setParameter('doctrine.oxm.xml_entity_managers', array_keys($xemConfigs));
+        $container->setParameter('doctrine.oxm.xml_marshallers', array_keys($xemConfigs));
     }
 
     /**
@@ -151,10 +157,20 @@ class DoctrineOXMExtension extends AbstractDoctrineExtension
         $oxmXemDef->addTag('doctrine.oxm.xml_entity_manager');
         $container->setDefinition(sprintf('doctrine.oxm.%s_xml_entity_manager', $xmlEntityManager['name']), $oxmXemDef);
 
+        // oxm marshaller
+        $oxmMarshallerDef = new Definition('%doctrine.oxm.xml_marshaller.class%');
+        $oxmMarshallerDef->setFactoryService(sprintf('doctrine.oxm.%s_xml_entity_manager', $xmlEntityManager['name']));
+        $oxmMarshallerDef->setFactoryMethod('getMarshaller');
+        $container->setDefinition(sprintf('doctrine.oxm.%s_xml_marshaller', $xmlEntityManager['name']), $oxmMarshallerDef);
+
         if ($xmlEntityManager['name'] == $defaultXEM) {
             $container->setAlias(
                 'doctrine.oxm.xml_entity_manager',
                 new Alias(sprintf('doctrine.oxm.%s_xml_entity_manager', $xmlEntityManager['name']))
+            );
+            $container->setAlias(
+                'doctrine.oxm.xml_marshaller',
+                new Alias(sprintf('doctrine.oxm.%s_xml_marshaller', $xmlEntityManager['name']))
             );
             $container->setAlias(
                 'doctrine.oxm.event_manager',

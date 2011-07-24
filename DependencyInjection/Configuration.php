@@ -42,6 +42,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('proxy_dir')->defaultValue('%kernel.cache_dir%/doctrine/oxm/Proxies')->end()
                 ->scalarNode('auto_generate_proxy_classes')->defaultFalse()->end()
                 ->scalarNode('default_xml_entity_manager')->end()
+                ->scalarNode('default_xml_marshaller')->end()
                 ->scalarNode('default_storage')->defaultValue('default')->end()
             ->end()
         ;     
