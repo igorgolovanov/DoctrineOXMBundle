@@ -31,6 +31,11 @@ Be sure to add them anywhere above the Doctrine namespace (shown here):
         // ...
     ));
 
+Register file with OXM annotations:
+
+    // app/autoload.php
+    AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine-oxm/lib/Doctrine/OXM/Mapping/Driver/DoctrineAnnotations.php');
+
 Finally, enable the new bundle in the kernel:
 
     // app/AppKernel.php
