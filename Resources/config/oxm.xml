@@ -42,6 +42,9 @@
         <parameter key="doctrine.oxm.yml_mapping_dirs">%doctrine.oxm.mapping_dirs%</parameter>
         <parameter key="doctrine.oxm.xml_entity_dirs" type="collection"></parameter>
         
+        <!-- security/user -->
+        <parameter key="doctrine.oxm.security.user.provider.class">Doctrine\Bundle\OXMBundle\Security\XmlEntityUserProvider</parameter>
+        
         <!-- proxy cache warmer -->
         <parameter key="doctrine.oxm.proxy_cache_warmer.class">Doctrine\Bundle\OXMBundle\CacheWarmer\ProxyCacheWarmer</parameter>
         
@@ -76,5 +79,10 @@
             <argument type="service" id="service_container" />
         </service>
 
+        <!-- Security -->
+        <service id="doctrine.oxm.security.user.provider" class="%doctrine.oxm.security.user.provider.class%" public="false" abstract="true">
+            <argument type="service" id="doctrine.oxm.security.user.xml_entity_manager" />
+        </service>
+        <service id="doctrine.oxm.security.user.xml_entity_manager" alias="doctrine.oxm.default_xml_entity_manager" public="false" />
     </services>
 </container>
